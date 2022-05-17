@@ -32,7 +32,7 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
       .filter((nft) => nft.id.tokenMetadata?.tokenType !== "erc1155")
       .map(async (nft) => ({
         id: `${nft.contract.address}-${nft.id.tokenId}`,
-        identifier: parseInt(nft.id.tokenId, 16).toString(),
+        identifier: ethers.BigNumber.from(nft.id.tokenId).toString(),
         registry: {
           name: nft.metadata?.name,
         },
