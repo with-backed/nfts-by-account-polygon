@@ -11,13 +11,13 @@ const httpServer = http.createServer(app);
 
 const typeDefs = gql`
   type Query {
-    hello: String
+    account(id: String): String
   }
 `;
 
 const resolvers = {
   Query: {
-    hello: () => "world",
+    hello: (id: string) => id,
   },
 };
 
