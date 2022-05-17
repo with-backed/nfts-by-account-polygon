@@ -3,6 +3,7 @@ import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
 import http from "http";
 import express from "express";
 import cors from "cors";
+import { getNFTsForAccount } from "../lib/getNFTsForAccount";
 
 const app = express();
 app.use(cors());
@@ -17,7 +18,8 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    account: (_parent, args, _context, _info) => args.id,
+    account: async (_parent, args, _context, _info) =>
+      await getNFTsForAccount(args.id),
   },
 };
 
