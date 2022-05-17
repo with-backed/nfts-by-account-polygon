@@ -35,8 +35,10 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    account: async (_parent, args, _context, _info) =>
-      await getNFTsForAccount(args.id),
+    account: async (_parent, args, _context, _info) => ({
+      id: args.id,
+      tokens: await getNFTsForAccount(args.id),
+    }),
   },
 };
 

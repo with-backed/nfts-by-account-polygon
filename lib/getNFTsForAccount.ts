@@ -13,6 +13,7 @@ interface Approval {
   id: string;
   approved: {
     id: string;
+    tokens: NFTEntity[];
   };
 }
 
@@ -47,6 +48,7 @@ async function getApprovalsForNFT(
       id: contractAddress,
       approved: {
         id: approvedAddress,
+        tokens: [],
       },
     },
   ];
