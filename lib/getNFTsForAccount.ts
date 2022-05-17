@@ -9,7 +9,7 @@ export interface NFTEntity {
     name: string;
   };
   uri?: string | null;
-  approvals: Approval[];
+  approvals?: Approval[] | null;
 }
 
 interface Approval {
@@ -27,10 +27,9 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
     owner,
   });
 
-  return await Promise.all(
-    nfts.ownedNfts
-      .filter((nft) => nft.id.tokenMetadata?.tokenType !== "erc1155")
-      .map(async (nft) => ({
+  return (
+    await Promise.all(
+      nfts.ownedNfts.map(async (nft) => ({
         id: `${nft.contract.address}-${nft.id.tokenId}`,
         identifier: ethers.BigNumber.from(nft.id.tokenId).toString(),
         registry: {
@@ -42,13 +41,14 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
           nft.id.tokenId
         ),
       }))
-  );
+    )
+  ).filter((nft) => !!nft.approvals);
 }
 
 async function getApprovalsForNFT(
   contractAddress: string,
   tokenId: string
-): Promise<Approval[]> {
+): Promise<Approval[] | null> {
   const jsonRpcProvider = process.env.RPC_URL!;
   const contract = jsonRpcERC721Contract(contractAddress, jsonRpcProvider);
 
@@ -66,6 +66,8 @@ async function getApprovalsForNFT(
       },
     ];
   } catch (_e) {
-    return [];
+    // tx to getApproved reverted so return null, which will indicate to getNFTsForAccount to filter this token out
+    // revert on getApproved means token is likely erc1155
+    return null;
   }
 }
