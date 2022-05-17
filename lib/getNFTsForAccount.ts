@@ -39,17 +39,29 @@ async function getApprovalsForNFT(
 ): Promise<Approval[]> {
   const jsonRpcProvider = process.env.RPC_URL!;
   const contract = jsonRpcERC721Contract(contractAddress, jsonRpcProvider);
-  const approvedAddress = await contract.getApproved(
-    ethers.BigNumber.from(tokenId)
-  );
 
-  return [
-    {
-      id: contractAddress,
-      approved: {
-        id: approvedAddress,
-        tokens: [],
+  try {
+    const approvedAddress = await contract.getApproved(
+      ethers.BigNumber.from(tokenId)
+    );
+    return [
+      {
+        id: contractAddress,
+        approved: {
+          id: approvedAddress,
+          tokens: [],
+        },
       },
-    },
-  ];
+    ];
+  } catch (_e) {
+    return [];
+  }
 }
+
+async function main() {
+  return await getNFTsForAccount("0x6b2770A75A928989C1D7356366d4665a6487e1b4");
+}
+
+main()
+  .then((res) => console.log({ res }))
+  .catch((err) => console.log({ err }));
