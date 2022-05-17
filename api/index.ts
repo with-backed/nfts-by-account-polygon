@@ -11,12 +11,12 @@ app.use(express.json());
 const httpServer = http.createServer(app);
 
 const typeDefs = gql`
-  type Account @entity {
+  type Account {
     id: String!
     tokens: [Token]!
   }
 
-  type Token @entity {
+  type Token {
     id: ID!
     identifier: BigInt!
     uri: String
