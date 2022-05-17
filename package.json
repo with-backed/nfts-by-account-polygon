@@ -5,6 +5,7 @@
   "author": "Adam Gobran <adamgobes@gmail.com>",
   "license": "MIT",
   "dependencies": {
+    "@alch/alchemy-web3": "^1.4.2",
     "apollo-server-core": "^3.7.0",
     "apollo-server-express": "^3.7.0",
     "cors": "^2.8.5",
