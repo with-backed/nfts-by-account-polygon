@@ -12,7 +12,7 @@ const httpServer = http.createServer(app);
 
 const typeDefs = gql`
   type Account {
-    id: String!
+    id: ID!
     tokens: [Token]!
   }
 
@@ -34,7 +34,7 @@ const typeDefs = gql`
   }
 
   type Query {
-    account(id: String!): Account
+    account(id: ID!): Account
   }
 `;
 

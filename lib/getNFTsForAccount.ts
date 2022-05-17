@@ -29,7 +29,7 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
 
   return await Promise.all(
     nfts.ownedNfts
-      .filter((nft) => nft.id.tokenMetadata?.tokenType === "erc721")
+      .filter((nft) => nft.id.tokenMetadata?.tokenType !== "erc1155")
       .map(async (nft) => ({
         id: `${nft.contract.address}-${nft.id.tokenId}`,
         identifier: parseInt(nft.id.tokenId, 16).toString(),
