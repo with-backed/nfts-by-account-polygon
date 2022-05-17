@@ -17,7 +17,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-    hello: (_parent, args, _context, _info) => args.id,
+    account: (_parent, args, _context, _info) => args.id,
   },
 };
 
