@@ -18,6 +18,7 @@ interface Approval {
 }
 
 export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
+  console.log(process.env.RPC_URL!);
   const web3 = createAlchemyWeb3(process.env.RPC_URL!);
 
   const nfts = await web3.alchemy.getNfts({
@@ -57,11 +58,3 @@ async function getApprovalsForNFT(
     return [];
   }
 }
-
-async function main() {
-  return await getNFTsForAccount("0x6b2770A75A928989C1D7356366d4665a6487e1b4");
-}
-
-main()
-  .then((res) => console.log({ res }))
-  .catch((err) => console.log({ err }));
