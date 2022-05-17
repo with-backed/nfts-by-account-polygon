@@ -11,8 +11,25 @@ app.use(express.json());
 const httpServer = http.createServer(app);
 
 const typeDefs = gql`
+  type Account @entity {
+    id: String!
+    tokens: [Token]!
+  }
+
+  type Token @entity {
+    id: ID!
+    identifier: BigInt!
+    uri: String
+    approvals: [Approval]!
+  }
+
+  type Approval {
+    id: ID!
+    approved: Account!
+  }
+
   type Query {
-    account(id: String!): String
+    account(id: String!): Account
   }
 `;
 
