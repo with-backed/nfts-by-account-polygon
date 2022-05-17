@@ -36,6 +36,7 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
         registry: {
           name: nft.metadata?.name,
         },
+        uri: nft.tokenUri?.raw,
         approvals: await getApprovalsForNFT(
           nft.contract.address,
           nft.id.tokenId
