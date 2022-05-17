@@ -21,7 +21,6 @@ interface Approval {
 }
 
 export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
-  console.log(process.env.RPC_URL!);
   const web3 = createAlchemyWeb3(process.env.RPC_URL!);
 
   const nfts = await web3.alchemy.getNfts({
@@ -29,14 +28,19 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
   });
 
   return await Promise.all(
-    nfts.ownedNfts.map(async (nft) => ({
-      id: `${nft.contract.address}-${nft.id.tokenId}`,
-      identifier: parseInt(nft.id.tokenId, 16).toString(),
-      registry: {
-        name: nft.metadata?.name,
-      },
-      approvals: await getApprovalsForNFT(nft.contract.address, nft.id.tokenId),
-    }))
+    nfts.ownedNfts
+      .filter((nft) => nft.id.tokenMetadata?.tokenType === "erc721")
+      .map(async (nft) => ({
+        id: `${nft.contract.address}-${nft.id.tokenId}`,
+        identifier: parseInt(nft.id.tokenId, 16).toString(),
+        registry: {
+          name: nft.metadata?.name,
+        },
+        approvals: await getApprovalsForNFT(
+          nft.contract.address,
+          nft.id.tokenId
+        ),
+      }))
   );
 }
 
