@@ -17,8 +17,8 @@ const typeDefs = gql`
   }
 
   type Token {
-    id: ID!
-    identifier: BigInt!
+    id: String!
+    identifier: String!
     uri: String
     approvals: [Approval]!
   }
