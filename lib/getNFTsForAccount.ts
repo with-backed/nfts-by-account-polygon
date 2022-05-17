@@ -5,6 +5,9 @@ import { jsonRpcERC721Contract } from "./contracts";
 export interface NFTEntity {
   id: string;
   identifier: string;
+  registry: {
+    name: string;
+  };
   uri?: string | null;
   approvals: Approval[];
 }
@@ -27,8 +30,11 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
 
   return await Promise.all(
     nfts.ownedNfts.map(async (nft) => ({
-      id: nft.contract.address,
+      id: `${nft.contract.address}-${nft.id.tokenId}`,
       identifier: nft.id.tokenId,
+      registry: {
+        name: nft.metadata?.name,
+      },
       approvals: await getApprovalsForNFT(nft.contract.address, nft.id.tokenId),
     }))
   );

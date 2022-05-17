@@ -19,8 +19,13 @@ const typeDefs = gql`
   type Token {
     id: String!
     identifier: String!
+    registry: TokenRegistry!
     uri: String
     approvals: [Approval]!
+  }
+
+  type TokenRegistry {
+    name: String
   }
 
   type Approval {
