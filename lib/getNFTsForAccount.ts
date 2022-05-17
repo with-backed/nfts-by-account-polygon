@@ -31,7 +31,7 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
   return await Promise.all(
     nfts.ownedNfts.map(async (nft) => ({
       id: `${nft.contract.address}-${nft.id.tokenId}`,
-      identifier: nft.id.tokenId,
+      identifier: parseInt(nft.id.tokenId, 16).toString(),
       registry: {
         name: nft.metadata?.name,
       },
