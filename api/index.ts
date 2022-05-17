@@ -34,15 +34,15 @@ const typeDefs = gql`
   }
 
   type Query {
-    account(id: String!): Account
+    account(address: String!): Account
   }
 `;
 
 const resolvers = {
   Query: {
     account: async (_parent, args, _context, _info) => ({
-      id: args.id,
-      tokens: await getNFTsForAccount(args.id),
+      id: args.address,
+      tokens: await getNFTsForAccount(args.address),
     }),
   },
 };
