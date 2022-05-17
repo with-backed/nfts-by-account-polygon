@@ -4,7 +4,7 @@ import { jsonRpcERC721Contract } from "./contracts";
 
 export interface NFTEntity {
   id: string;
-  identifier: ethers.BigNumber;
+  identifier: string;
   uri?: string | null;
   approvals: Approval[];
 }
@@ -28,7 +28,7 @@ export async function getNFTsForAccount(owner: string): Promise<NFTEntity[]> {
   return await Promise.all(
     nfts.ownedNfts.map(async (nft) => ({
       id: nft.contract.address,
-      identifier: ethers.BigNumber.from(nft.id.tokenId),
+      identifier: nft.id.tokenId,
       approvals: await getApprovalsForNFT(nft.contract.address, nft.id.tokenId),
     }))
   );
